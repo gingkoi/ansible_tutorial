@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: update packages
+    dnf:
+      update_cache: yes
+
+  - name: install tmux package
+    dnf:
+      name: tmux
+      state: latest
+
+  - name: install tuned package
+    dnf:
+      name: tuned
+      state: latest
