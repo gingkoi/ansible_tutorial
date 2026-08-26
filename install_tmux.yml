@@ -4,22 +4,11 @@
   become: true
   tasks:
 
-  - name: update packages
-    apt:
-      update_cache: yes
-    when: ansible_distribution in ["Debian", "Ubuntu"]
-
-  - name: update dnf packages
-    dnf:
-      update_cache: yes
-    when: ansible_distribution == "RedHat" and ansible_distribution_version == "10.0"
-
-  - name: install tmux package
-    dnf:
-      name: tmux
+  - name: update packages and install tmux and httpd packages
+    package:
+      name: 
+        - tmux
+        - httpd
       state: latest
+      update_cache: yes
 
-  - name: install httpd package
-    dnf:
-      name: httpd
-      state: latest
