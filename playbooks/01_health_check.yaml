@@ -1,0 +1,16 @@
+---
+- name: Inspect System Hardware & OS
+  hosts: linux_servers
+  gather_facts: true
+
+  tasks:
+    - name: Display host identity and memory details
+      ansible.builtin.debug:
+        msg:
+          - "Host: {{ ansible_hostname }}"
+          - "Distribution: {{ ansible_distribution }} {{ ansible_distribution_version }}"
+          - "Kernel: {{ ansible_kernel }}"
+          - "Total RAM: {{ ansible_memtotal_mb / 1024 | round(2) }} GB"
+          - "All IPv4 Address: {{ ansible_all_ipv4_addresses | join(', ') }}"
+          # - "All IPv4 Mac Address: {{ ansible_all_ipv4_mac_addresses }}"
+          - "SSH RSA public host key type: {{ ansible_ssh_host_key_rsa_public_keytype }}"
