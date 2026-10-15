@@ -1,0 +1,32 @@
+---
+- name: Manage Admin Accounts
+  hosts: linux_servers
+  become: true
+
+  tasks:
+    - name: Create admin01 user account
+      ansible.builtin.user:
+        name: admin01
+        comment: "System Administrator"
+        shell: /bin/bash
+        state: present
+        groups: "{{ 'sudo' if ansible_os_family == 'Debian' else 'wheel' }}"
+        append: true
+        create_home: true
+
+    - name: Configure passwordless sudo for admin01
+      ansible.builtin.copy:
+        content: "admin01 ALL=(ALL) NOPASSWD:ALL\n"
+        dest: "/etc/sudoers.d/admin01"
+        owner: root
+        group: root
+        mode: '0440'
+        validate: '/usr/sbin/visudo -cf %s'
+
+    - name: Deploy authorized SSH key for admin01
+      ansible.posix.authorized_key:
+        user: admin01
+        state: present
+        key: "{{ lookup('file', '~/.ssh/admin01_id_ed25519.pub') }}"
+
+

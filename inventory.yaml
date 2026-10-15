@@ -1,0 +1,20 @@
+all:
+  children:
+    linux_servers:
+      vars:
+        ansible_user: root
+        ansible_ssh_private_key_file: ~/.ssh/ansible
+        ansible_python_interpreter: /usr/bin/python3
+      children:
+        centos:
+          hosts:
+            SRV01:
+              ansible_host: 192.168.174.201
+        ubuntu:
+          hosts:
+            SRV02:
+              ansible_host: 192.168.174.202
+        rhel:
+          hosts:
+            SRV03:
+              ansible_host: 192.168.174.203

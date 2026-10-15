@@ -1,0 +1,9 @@
+---
+
+- name: Update web server
+  hosts: webserver
+  remote_user : root
+
+  task:
+  - name: Ensure apache is at the latest version
+    
